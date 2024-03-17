@@ -2,6 +2,7 @@ package router
 
 import (
 	"context"
+	"errors"
 	"go-ecommerce/config"
 	"net/http"
 	"time"
@@ -39,14 +40,17 @@ func requestTimeOutMiddleWare(timeout time.Duration) gin.HandlerFunc {
 
 		go func() {
 			defer close(done)
+			c.Next()
 		}()
 
 		select {
 		case <-done:
 			return
 		case <-ctx.Done():
-			c.AbortWithStatusJSON(http.StatusGatewayTimeout, gin.H{"error": "request time out"})
-
+			if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+				c.AbortWithStatusJSON(http.StatusGatewayTimeout, gin.H{"error": "request time out"})
+				return
+			}
 		}
 	}
 }

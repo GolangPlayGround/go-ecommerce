@@ -1,6 +1,8 @@
 package router
 
 import (
+	"context"
+	"errors"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -21,5 +23,10 @@ func NewMongoRouter(router *Router) {
 }
 
 func (m *MongoRouter) health(c *gin.Context) {
-	fmt.Println("incoming")
+
+	if errors.Is(c.Request.Context().Err(), context.DeadlineExceeded) {
+		fmt.Println("에러발생")
+	} else {
+		fmt.Println("incoming")
+	}
 }
