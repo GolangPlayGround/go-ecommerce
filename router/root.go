@@ -23,6 +23,8 @@ func NewRouter(config *config.Config) (*Router, error) {
 
 	r.engine.Use(requestTimeOutMiddleWare(5 * time.Second))
 
+	NewMongoRouter(r)
+
 	return r, r.engine.Run(config.ServerInfo.Port)
 }
 
