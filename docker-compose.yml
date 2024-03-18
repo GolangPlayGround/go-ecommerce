@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:5.0.18
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    logging:
+      driver: "none"
