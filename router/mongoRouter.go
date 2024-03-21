@@ -20,6 +20,11 @@ func NewMongoRouter(router *Router) {
 	baseUri := "/mongo"
 
 	m.router.GET(baseUri+"/health", m.health)
+
+	m.router.GET(baseUri+"/bucket", nil) //장바구니 대한 정보 가져오기
+
+	m.router.GET(baseUri+"/content", nil)             // 상품 정보를 가져오기
+	m.router.GET(baseUri+"/user-bucket-history", nil) // 유저의 구매 이력 정보
 }
 
 func (m *MongoRouter) health(c *gin.Context) {
